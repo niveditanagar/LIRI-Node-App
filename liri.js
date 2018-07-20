@@ -26,44 +26,48 @@ if(userInput === "my-tweets"){
 
 //to fetch spotify 
 if(userInput === "spotify-this-song"){
-    spotify.search({type: "track", query: secondUserInput}, function(error,data){
-        if(!error){
-            console.log(data);
-        } 
-        var songList = [];
-        var songs = data.tracks.items;
 
+    spotify.search({type: "track", query: secondUserInput}, function(error,body){
+    
+        if(error){
+            console.log("Error occured: " + error);
+            return;
+        } 
         
+        else if(body){
+           var songs = body.tracks.items;
+           console.log(songs);
+            
+        }    
     })
 }
 
 //OMDB command line:
-var movieArgument = process.argv;
+//var queryUrl = "http://www.omdbapi.com/?t=" + secondUserInput + "&y=&plot=short&apikey=trilogy";
+//console.log(queryUrl);
+//set up a request with the parameters: URL and the call back function.
+//arguments passed in the call back function are error,response,body
+//set up conditionals so when the command and movie is typed in the terminal, the movie information shows up
+//console.log title
+//console.log year
+//console.log IMDB ratings and Rotten Tomatoes rating
+//console.log language
+//console.log plot
+//console.log actors
+//console.log country where the movie was produced
 
-var movieName = "";
-for(var i = 2; i < movieArgument.lenght; i++){
-    if(i > 2 && i < movieArgument.lenght){
-        movieName = movieName + "+" + movieArgument[i];
+fs.readFile("random.txt", "utf-8", function(error, data){
+    if(error){
+        return console.log(error);
     }
 
-    else {
+    console.log(data);
 
-        movieName += movieArgument[i];
-    
-      }
-}
+    var textData = data.split(",");
 
-var URL = "http://www.omdbapi.com/?t=" + secondUserInput + "&y=&plot=short&apikey=trilogy";
+    console.log(textData);
 
-console.log(URL);
-
-request(URL, function(error,response,body){
-    if (!error && response.statusCode === 200) {
-
-    
-     console.log("Release Year: " + JSON.parse(body).Year);
+    if(userInput === "do-what-it-says"){
+        //it should run spotify for the song I want it That Way
     }
-});
-
-
-
+})
